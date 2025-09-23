@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # Service for the Flask Application
+  web:
+    build: .
+    container_name: flask_app
+    ports:
+      - "5000:5000" # Map host port 5000 to container port 5000
+    volumes:
+      - .:/app # Mount current directory to /app in the container
+    depends_on:
+      - db # Wait for the db service to start before starting web
+    environment:
+      - FLASK_RUN_HOST=0.0.0.0
+
+  # Service for the MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: pass # MUST MATCH the password in app.py
+      MYSQL_DATABASE: flask_db # Creates the database on startup
+    ports:
+      - "3306:3306" # Optional: Map host port to container port for external access
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
+
+volumes:
+  mysql_data:
