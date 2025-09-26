@@ -1,201 +1,224 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New User</title>
+    <title>User Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
             padding: 2rem 0;
         }
-        .form-container {
+        .main-container {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(10px);
-            overflow: hidden;
         }
-        .form-header {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            border-radius: 20px 20px 0 0;
             padding: 2rem;
             text-align: center;
         }
-        .form-header h1 {
-            font-size: 2rem;
+        .page-header h1 {
+            font-size: 2.5rem;
             font-weight: 300;
             margin: 0;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
-        .form-header p {
+        .page-header p {
             margin: 0.5rem 0 0 0;
             opacity: 0.9;
         }
-        .form-body {
-            padding: 2.5rem;
+        .content-area {
+            padding: 2rem;
         }
-        .form-floating {
-            margin-bottom: 1.5rem;
-        }
-        .form-floating > .form-control {
-            border: 2px solid #e9ecef;
-            border-radius: 15px;
-            padding: 1rem 0.75rem;
-            height: auto;
-            transition: all 0.3s ease;
-        }
-        .form-floating > .form-control:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
-        }
-        .form-floating > label {
-            color: #6c757d;
-            font-weight: 500;
-        }
-        .btn-submit {
+        .add-user-btn {
             background: linear-gradient(135deg, #28a745, #20c997);
             border: none;
-            padding: 12px 2rem;
-            border-radius: 50px;
-            color: white;
-            font-weight: 500;
-            width: 100%;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
-        }
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
-            color: white;
-        }
-        .btn-back {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border: none;
-            padding: 10px 1.5rem;
+            padding: 12px 30px;
             border-radius: 50px;
             color: white;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             transition: all 0.3s ease;
-            font-weight: 500;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
         }
-        .btn-back:hover {
+        .add-user-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
             color: white;
         }
-        .input-icon {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6c757d;
-            z-index: 5;
+        .table-container {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
         }
-        .form-floating {
-            position: relative;
+        .table {
+            margin: 0;
         }
-        .divider {
+        .table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .table thead th {
+            border: none;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 1rem;
+        }
+        .table tbody tr {
+            transition: all 0.3s ease;
+        }
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+            transform: scale(1.01);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .table tbody td {
+            padding: 1rem;
+            vertical-align: middle;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .table td {
+    white-space: nowrap;   /* Keep text/buttons on one line */
+}
+        .btn-action {
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin: 0 3px;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        .btn-update {
+            background: linear-gradient(135deg, #17a2b8, #6f42c1);
+            color: white;
+        }
+        .btn-update:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(23, 162, 184, 0.4);
+            color: white;
+        }
+        .btn-delete {
+            background: linear-gradient(135deg, #dc3545, #fd7e14);
+            color: white;
+        }
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+            color: white;
+        }
+        .no-users {
             text-align: center;
-            margin: 2rem 0;
-            position: relative;
-        }
-        .divider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: #e9ecef;
-        }
-        .divider span {
-            background: white;
-            padding: 0 1rem;
+            padding: 3rem;
             color: #6c757d;
+        }
+        .no-users i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        .user-id {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
             font-weight: 500;
         }
         @media (max-width: 768px) {
-            .form-body {
-                padding: 2rem 1.5rem;
+            .table-responsive {
+                border-radius: 15px;
             }
-            .form-header {
-                padding: 1.5rem;
+            .btn-action {
+                display: block;
+                margin: 2px 0;
+                width: 100%;
             }
-            .form-header h1 {
-                font-size: 1.5rem;
-            }
-        }
-        .validation-feedback {
-            display: block;
-            color: #dc3545;
-            font-size: 0.875rem;
-            margin-top: 0.25rem;
-        }
-        .form-control.is-invalid {
-            border-color: #dc3545;
         }
     </style>
 </head>
 <body>
     <div class="container-fluid">
         <div class="row justify-content-center">
-            <div class="col-lg-6 col-md-8 col-sm-10">
-                <div class="form-container">
-                    <div class="form-header">
-                        <h1><i class="fas fa-user-plus"></i> Add New User</h1>
-                        <p>Create a new user account in the system</p>
+            <div class="col-lg-10 col-xl-8">
+                <div class="main-container">
+                    <div class="page-header">
+                        <h1><i class="fas fa-users"></i> User Management</h1>
+                        <p>Manage your application users efficiently</p>
                     </div>
                     
-                    <div class="form-body">
-                        <form action="/add" method="POST" id="addUserForm" novalidate>
-                            <div class="form-floating">
-                                <input type="text" class="form-control" id="name" name="name" 
-                                       placeholder="Enter full name" required>
-                                <label for="name"><i class="fas fa-user me-2"></i>Full Name</label>
-                                <i class="fas fa-user input-icon"></i>
-                                <div class="invalid-feedback">
-                                    Please provide a valid name.
-                                </div>
+                    <div class="content-area">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3 class="text-dark mb-0">All Users</h3>
+                            <a href="/add" class="add-user-btn">
+                                <i class="fas fa-plus"></i>
+                                Add New User
+                            </a>
+                        </div>
+                        
+                        <div class="table-container">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th><i class="fas  me-2"></i>ID</th>
+                                            <th><i class="fas fa-user me-2"></i>Name</th>
+                                            <th><i class="fas fa-envelope me-2"></i>Email</th>
+                                            <th class="text-center"><i class="fas fa-cogs me-2"></i>Actions</th>
+                                        </tr>
+                                    </thead>
+                                  <tbody>
+    {% for user in users %}
+    <tr>
+        <td><span class="user-id">{{ loop.index }}</span></td> 
+        <td>
+            <strong>{{ user.name }}</strong>
+        </td>
+        <td>
+            <i class="fas fa-envelope text-muted me-2"></i>
+            {{ user.email }}
+        </td>
+        <td class="text-center">
+            <a href="/update/{{ user.id }}" class="btn btn-action btn-update">
+                <i class="fas fa-edit me-1"></i>Update
+            </a>
+            <a href="/delete/{{ user.id }}" class="btn btn-action btn-delete" 
+               data-user-id="{{ user.id }}"
+               data-user-name="{{ user.name }}"
+               data-user-email="{{ user.email }}">
+                <i class="fas fa-trash me-1"></i>Delete
+            </a>
+        </td>
+    </tr>
+    {% else %}
+    <tr>
+        <td colspan="4" class="no-users">
+            <i class="fas fa-users-slash text-muted"></i>
+            <h5 class="mt-3">No Users Found</h5>
+            <p>Start by adding your first user to the system.</p>
+            <a href="/add" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Add First User
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+
+                                </table>
                             </div>
-                            
-                            <div class="form-floating">
-                                <input type="email" class="form-control" id="email" name="email" 
-                                       placeholder="Enter email address" required>
-                                <label for="email"><i class="fas fa-envelope me-2"></i>Email Address</label>
-                                <i class="fas fa-envelope input-icon"></i>
-                                <div class="invalid-feedback">
-                                    Please provide a valid email address.
-                                </div>
-                            </div>
-                            
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-submit">
-                                    <i class="fas fa-plus me-2"></i>
-                                    Add User
-                                </button>
-                            </div>
-                            
-                            <div class="divider">
-                                <span>or</span>
-                            </div>
-                            
-                            <div class="text-center">
-                                <a href="/" class="btn-back">
-                                    <i class="fas fa-arrow-left"></i>
-                                    Back to User List
-                                </a>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -225,6 +248,51 @@
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
+        
+        <!-- Warning Toast -->
+        <div id="warningToast" class="toast align-items-center text-white bg-warning border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <span id="warningMessage"></span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="deleteModalLabel">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Confirm Delete
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <i class="fas fa-user-times text-danger" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <h6>Are you sure you want to delete this user?</h6>
+                        <p class="text-muted mb-0">This action cannot be undone.</p>
+                        <div class="mt-3 p-3 bg-light rounded">
+                            <strong>User:</strong> <span id="deleteUserName"></span><br>
+                            <strong>Email:</strong> <span id="deleteUserEmail"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i>Cancel
+                    </button>
+                    <a href="#" id="confirmDeleteBtn" class="btn btn-danger">
+                        <i class="fas fa-trash me-1"></i>Delete User
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -250,64 +318,40 @@
             
             if (message && type) {
                 showToast(type, decodeURIComponent(message));
+                
+                // Clean URL without refreshing the page
+                const url = new URL(window.location);
+                url.searchParams.delete('message');
+                url.searchParams.delete('type');
+                window.history.replaceState({}, document.title, url);
             }
         });
 
-        // Form submission with loading state
-        document.getElementById('addUserForm').addEventListener('submit', function(e) {
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
+        // Delete confirmation modal
+        function confirmDelete(userId, userName, userEmail, deleteUrl) {
+            document.getElementById('deleteUserName').textContent = userName;
+            document.getElementById('deleteUserEmail').textContent = userEmail;
+            document.getElementById('confirmDeleteBtn').href = deleteUrl;
             
-            // Show loading state
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Adding User...';
-            submitBtn.disabled = true;
-            
-            // If form validation fails, reset button
-            if (!this.checkValidity()) {
-                setTimeout(() => {
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
-                }, 100);
-            }
-        });
+            const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            deleteModal.show();
+        }
 
-        // Bootstrap form validation
-        (function() {
-            'use strict';
-            window.addEventListener('load', function() {
-                var forms = document.getElementsByClassName('needs-validation');
-                var validation = Array.prototype.filter.call(forms, function(form) {
-                    form.addEventListener('submit', function(event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
+        // Add event listeners to delete buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.btn-delete');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const userId = this.getAttribute('data-user-id');
+                    const userName = this.getAttribute('data-user-name');
+                    const userEmail = this.getAttribute('data-user-email');
+                    const deleteUrl = this.getAttribute('href');
+                    
+                    confirmDelete(userId, userName, userEmail, deleteUrl);
                 });
-            }, false);
-        })();
-
-        // Real-time validation
-        document.getElementById('name').addEventListener('input', function() {
-            if (this.value.trim().length > 0) {
-                this.classList.remove('is-invalid');
-                this.classList.add('is-valid');
-            } else {
-                this.classList.remove('is-valid');
-                this.classList.add('is-invalid');
-            }
-        });
-
-        document.getElementById('email').addEventListener('input', function() {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (emailRegex.test(this.value)) {
-                this.classList.remove('is-invalid');
-                this.classList.add('is-valid');
-            } else {
-                this.classList.remove('is-valid');
-                this.classList.add('is-invalid');
-            }
+            });
         });
     </script>
 </body>
